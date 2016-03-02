@@ -15,7 +15,7 @@
 #   limitations under the License.
 #
 
-  - name: 5.2.1.1 Configure Data Retention (Not Scored)
+  - name: 5.2.1.1 Configure Audit Log Storage Size (Not Scored)
     lineinfile: >
       state=present
       dest=/etc/audit/auditd.conf
@@ -93,7 +93,7 @@
   - name: 5.2.3 Enable Auditing for Processes That Start Prior to auditd (Scored)
     lineinfile: >
       state=present
-      dest=/etc/grub.conf
+      dest=/etc/default/grub
       backrefs=yes
       regexp="(^\s*kernel.*)$(?<!audit=1)"
       line="\1 audit=1"

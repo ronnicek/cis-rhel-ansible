@@ -1,5 +1,6 @@
 ---
 #
+# Copyright 2016 Alexander Verhaar
 # Copyright 2014 Major Hayden
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +18,7 @@
 
   - name: 1.1.1 Create Separate Partition for /tmp (Scored)
     debug: msg="*** Manually create Separate Partition for /tmp."
+    failed_when: "'/tmp' not in ansible_mounts"
     tags:
       - scored
       - section1.1
@@ -40,6 +42,7 @@
 
   - name: 1.1.5 Create Separate Partition for /var (Scored)
     debug: msg="*** Manually create Separate Partition for /var."
+    fail_when: "'/var' not in ansible_mounts"
     tags:
       - scored
       - section1.1
@@ -61,6 +64,7 @@
 
   - name: 1.1.7 Create Separate Partition for /var/log (Scored)
     debug: msg="*** Manually create Separate Partition for /var/log."
+    fail_when: "'/var/log' not in ansible_mounts"
     tags:
       - scored
       - section1.1
@@ -68,6 +72,7 @@
 
   - name: 1.1.8 Create Separate Partition for /var/log/audit (Scored)
     debug: msg="*** Manually create Separate Partition for /var/log/audit."
+    fail_when: "'/var/log/audit' not in ansible_mounts"
     tags:
       - scored
       - section1.1
@@ -75,6 +80,7 @@
 
   - name: 1.1.9 Create Separate Partition for /home (Scored)
     debug: msg="*** Manually create Separate Partition for /home."
+    fail_when: "'/home' not in ansible_mounts"
     tags:
       - scored
       - section1.1
@@ -130,7 +136,7 @@
       - scored
 
   - name: 1.1.17 Set sticky bit on all world-writeable directories (Scored)
-    debug: msg="*** May be too destructive -- see notes"
+    shell:  df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs chmod a+t
     tags:
       - scored
       - section1.1
@@ -147,7 +153,7 @@
       - section1.2.1
 
   - name: 1.2.2 Verify Red Hat GPG key is installed (Scored)
-    command: gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release 
+    command: gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
     when: ansible_distribution == "RedHat"
     tags:
       - scored
@@ -164,6 +170,16 @@
       - scored
       - section1.2
       - section1.2.3
+
+  - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
+    service: >
+      name=rhnsd
+      state=stopped
+      enabled=no
+    tags:
+      - notscored
+      - section1.2
+      - section1.2.4
 
   - name: 1.2.5 Obtain software package updates with yum (Not Scored)
     debug: msg="*** Check manually."
@@ -214,33 +230,17 @@
       path={{ readlink.stdout }}
       mode=0400
     tags:
-      - scored 
+      - scored
       - section1.5
       - section1.5.2
 
+  # TODO: Needs to be implemented
   - name: 1.5.3 Set boot loader password (Scored)
     debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
     tags:
       - scored
       - section1.5
       - section1.5.3
-
-  - name: 1.5.4 Require authentication for single-user mode (Scored)
-    debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
-    tags:
-      - scored
-      - section1.5
-      - section1.5.4
-
-  - name: 1.5.5 Disable Interactive Boot (Scored)
-    lineinfile: >
-      dest=/etc/sysconfig/init
-      regexp=^PROMPT=
-      line=PROMPT=no
-    tags:
-      - scored
-      - section1.5
-      - section1.5.5
 
   - name: 1.6.1 Restrict core dumps (Scored) - via pam
     lineinfile: >
@@ -263,18 +263,7 @@
       - section1.6
       - section1.6.1
 
-  - name: 1.6.2 Configure ExecShield (Scored)
-    sysctl: >
-      name=kernel.exec-shield
-      value=1
-      state=present
-      ignoreerrors=yes
-    tags:
-      - scored
-      - section1.6
-      - section1.6.2
-
-  - name: 1.6.3 Enable Randomized Virtual Memory Region Placement (Scored)
+  - name: 1.6.2 Enable Randomized Virtual Memory Region Placement (Scored)
     sysctl: >
       name=kernel.randomize_va_space
       value=2
@@ -283,7 +272,7 @@
     tags:
       - scored
       - section1.6
-      - section1.6.3
+      - section1.6.2
 
   - name: 1.7 Use the Latest OS Release (Not Scored)
     command: >

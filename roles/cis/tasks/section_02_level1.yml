@@ -52,7 +52,7 @@
       - section2.1.4
 
   - name: 2.1.5 Remove NIS Client (Scored)
-    yum: > 
+    yum: >
       name=ypbind
       state=absent
     tags:
@@ -237,4 +237,3 @@
       - scored
       - section2.1
       - section2.1.18
-      

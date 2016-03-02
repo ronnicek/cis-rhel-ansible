@@ -1,2 +1,7 @@
 ---
-# vars file for .
+modprobe_unused_modules: /etc/modprobe.d/CIS_unused_modules.conf
+modprobe_cis_conf: /etc/modprobe.d/CIS_uncommon_network_protocols.conf
+space_left_action: email
+action_mail_acct: root
+admin_space_left_action: halt
+max_log_file_action: keep_logs

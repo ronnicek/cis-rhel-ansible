@@ -26,11 +26,11 @@
       - section3.1
 
   - name: 3.2 Remove X Windows (runlevel 3) (Scored)
-    lineinfile: >
-      dest=/etc/inittab
-      state=present
-      regexp="^id:"
-      line="id:3:initdefault:"
+    file: >
+      src=/etc/systemd/system/multi-user.target
+      dest=/etc/systemd/system/default.target
+      state=link
+      force=yes
     tags:
       - scored
       - section3.2
@@ -43,29 +43,14 @@
       - scored
       - section3.2
 
-  - name: 3.3 Disable Avahi Server (check if installed) (Scored)
-    stat: path=/etc/init.d/avahi-daemon
-    register: avahi_service
-    tags:
-      - scored
-      - section3.3
-
   - name: 3.3 Disable Avahi Server (disable service) (Scored)
     service: >
       name=avahi-daemon
       state=stopped
       enabled=no
-    when: avahi_service.stat.exists
     tags:
       - scored
       - section3.3
-
-  - name: 3.4 Check to see if cups daemon is installed (Not Scored)
-    stat: path=/etc/init.d/cups
-    register: cups_service
-    tags:
-      - notscored
-      - section3.4
 
   - name: 3.4 Disable Print Server - CUPS (Not Scored)
     service: >
@@ -73,7 +58,6 @@
       state=stopped
       enabled=no
     ignore_errors: yes
-    when: cups_service.stat.exists
     tags:
       - notscored
       - section3.4
@@ -89,7 +73,7 @@
   - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
     yum: >
       pkg=ntp
-      state=installed    
+      state=installed
     always_run: yes
     tags:
       - scored
@@ -258,8 +242,8 @@
 
   - name: 3.16 Configure Mail Transfer Agent for Local-Only Mode (Scored)
     lineinfile: >
-      backup=yes 
-      state=present 
+      backup=yes
+      state=present
       dest=/etc/postfix/main.cf
       backrefs=yes
       regexp="^inet_interfaces"
