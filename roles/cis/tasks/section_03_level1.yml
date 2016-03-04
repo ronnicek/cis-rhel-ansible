@@ -1,5 +1,6 @@
 ---
 #
+# Copyright 2016 Alexander Verhaar
 # Copyright 2014 Major Hayden
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,10 +45,19 @@
       - section3.2
 
   - name: 3.3 Disable Avahi Server (disable service) (Scored)
+    shell: systemctl is-enabled avahi-daemon
+    ignore_errors: True
+    register: result3_3
+    tags:
+      - scored
+      - section3.3
+
+  - name: 3.3 Disable Avahi Server (disable service) (Scored)
     service: >
       name=avahi-daemon
       state=stopped
       enabled=no
+    when: "'enabled' in result3_3.stdout"
     tags:
       - scored
       - section3.3

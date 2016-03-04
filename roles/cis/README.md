@@ -1,4 +1,4 @@
-CIS
+CIS Baseline RHEL7/CentOS7
 =========
 
 This role can be used to audit or remediate a host against the Center for Internet Security (CIS) security benchmarks.
@@ -29,7 +29,7 @@ Playbooks can utilize the CIS role without much effort:
 
     - hosts: all
       roles:
-        - cis 
+        - cis
 
 The role is thoroughly tagged so that you can run certain sections or certain levels of checks:
 
@@ -47,4 +47,5 @@ Apache License, Version 2.0
 Author Information
 ------------------
 
-Major Hayden <major@mhtx.net>
+2016 - Alexander Verhaar <sanderv32@gmail.com>
+2014 - Major Hayden <major@mhtx.net>

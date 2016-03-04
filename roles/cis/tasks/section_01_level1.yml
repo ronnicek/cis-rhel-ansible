@@ -18,7 +18,7 @@
 
   - name: 1.1.1 Create Separate Partition for /tmp (Scored)
     debug: msg="*** Manually create Separate Partition for /tmp."
-    failed_when: "'/tmp' not in ansible_mounts"
+    failed_when: "'/tmp' not in mountpoints"
     tags:
       - scored
       - section1.1
@@ -42,7 +42,7 @@
 
   - name: 1.1.5 Create Separate Partition for /var (Scored)
     debug: msg="*** Manually create Separate Partition for /var."
-    fail_when: "'/var' not in ansible_mounts"
+    failed_when: "'/var' not in mountpoints"
     tags:
       - scored
       - section1.1
@@ -64,7 +64,7 @@
 
   - name: 1.1.7 Create Separate Partition for /var/log (Scored)
     debug: msg="*** Manually create Separate Partition for /var/log."
-    fail_when: "'/var/log' not in ansible_mounts"
+    failed_when: "'/var/log' not in mountpoints"
     tags:
       - scored
       - section1.1
@@ -72,7 +72,7 @@
 
   - name: 1.1.8 Create Separate Partition for /var/log/audit (Scored)
     debug: msg="*** Manually create Separate Partition for /var/log/audit."
-    fail_when: "'/var/log/audit' not in ansible_mounts"
+    failed_when: "'/var/log/audit' not in mountpoints"
     tags:
       - scored
       - section1.1
@@ -80,7 +80,7 @@
 
   - name: 1.1.9 Create Separate Partition for /home (Scored)
     debug: msg="*** Manually create Separate Partition for /home."
-    fail_when: "'/home' not in ansible_mounts"
+    failed_when: "'/home' not in mountpoints"
     tags:
       - scored
       - section1.1
@@ -136,7 +136,16 @@
       - scored
 
   - name: 1.1.17 Set sticky bit on all world-writeable directories (Scored)
-    shell:  df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs chmod a+t
+    shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null
+    register: result1_1_17
+    tags:
+      - scored
+      - section1.1
+      - section1.1.17
+
+  - name: 1.1.17 Set sticky bit on all world-writeable directories (Scored)
+    shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null | xargs chmod a+t
+    when: result1_1_17 == ""
     tags:
       - scored
       - section1.1
@@ -172,10 +181,20 @@
       - section1.2.3
 
   - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
+    shell: systemctl is-enabled rhnsd
+    register: result1_2_4
+    ignore_errors: True
+    tags:
+      - notscored
+      - section1.2
+      - section1.2.4
+
+  - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
     service: >
       name=rhnsd
       state=stopped
       enabled=no
+    when: "'enabled' in result1_2_4.stdout"
     tags:
       - notscored
       - section1.2
@@ -195,8 +214,8 @@
       - section1.2
       - section1.2.6
 
-  - name: 1.5.1 Get Absolute Path to grub.conf
-    command: readlink -f /etc/grub.conf
+  - name: 1.5.1 Get Absolute Path to grub config
+    command: readlink -f /etc/default/grub
     register: readlink
     changed_when: false
     always_run: yes
@@ -205,7 +224,7 @@
       - section1.5
       - section1.5.1
 
-  - name: 1.5.1 Set User/Group Owner on /etc/grub.conf (Scored)
+  - name: 1.5.1 Set User/Group Owner on /etc/default/grub (Scored)
     file: >
       path={{ readlink.stdout }}
       owner=root
@@ -215,8 +234,8 @@
       - section1.5
       - section1.5.1
 
-  - name: 1.5.2 Get Absolute Path to grub.conf
-    command: readlink -f /etc/grub.conf
+  - name: 1.5.2 Get Absolute Path to grub config
+    command: readlink -f /etc/default/grub
     register: readlink
     changed_when: false
     always_run: yes
@@ -225,7 +244,7 @@
       - section1.5
       - section1.5.2
 
-  - name: 1.5.2 Set Permissions on /etc/grub.conf (Scored)
+  - name: 1.5.2 Set Permissions on /etc/default/grub (Scored)
     file: >
       path={{ readlink.stdout }}
       mode=0400

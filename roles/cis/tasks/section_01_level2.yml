@@ -16,8 +16,8 @@
 #   limitations under the License.
 #
 
-  - name: Create /etc/modprobe.d/CIS.conf with root ownership & mode
-    file: path=/etc/modprobe.d/CIS.conf state=touch owner=root group=root mode=0600
+  - name: "Create {{modprobe_unused_modules}} with root ownership & mode"
+    file: path="{{modprobe_unused_modules}}" state=touch owner=root group=root mode=0600
     changed_when: false
     tags:
       - notscored
@@ -33,7 +33,7 @@
   - name: 1.1.18 Disable Mounting of cramfs Filesystems (Not Scored)
     lineinfile: >
       state=present
-      dest=/etc/modprobe.d/CIS.conf
+      dest="{{modprobe_unused_modules}}"
       line="install cramfs /bin/true"
     tags:
       - notscored
