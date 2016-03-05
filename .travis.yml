@@ -1,13 +1,17 @@
 language: python
 python: '2.7'
+sudo: required
 env:
 - PYTHONUNBUFFERED=1
 before_install:
 - sudo apt-get update -qq
+- sudo apt-get upgrade
 install:
 - pip install -U pip
 - pip install ansible
+- pip install ansible-lint
+- gem install yaml-lint
 - "printf '[defaults]\nroles_path=../' > ansible.cfg"
 script:
 - ansible-playbook -i tests/hosts tests/test.yml --syntax-check
-- ansible-playbook -v -i tests/hosts tests/test.yml
+- find . -name "*.yml" | xargs yaml-lint

@@ -19,4 +19,4 @@
 - hosts: all
   user: root
   roles:
-    - cis 
+    - cis

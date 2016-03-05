@@ -311,7 +311,7 @@
 
   - name: 6.2.13 Limit Access via SSH (Scored)
     lineinfile: >
-      dest=/etc/ssh/sshd_config 
+      dest=/etc/ssh/sshd_config
       regexp="^AllowUsers "
       line="AllowUsers {{ ssh_allow_users }}"
     when: ssh_allow_users is defined
