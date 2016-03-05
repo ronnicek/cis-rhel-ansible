@@ -3,6 +3,8 @@ python: '2.7'
 sudo: required
 env:
 - PYTHONUNBUFFERED=1
+services:
+- docker
 before_install:
 - sudo apt-get update -qq
 install:
@@ -10,7 +12,13 @@ install:
 - pip install ansible
 - pip install ansible-lint
 - gem install yaml-lint
-- printf "[defaults]\nroles_path=./roles" > ansible.cfg
 script:
+- printf "[defaults]\nroles_path=./roles" > ansible.cfg
 - ansible-playbook -i tests/hosts tests/test.yml --syntax-check
 - find . -name "*.yml" | xargs yaml-lint
+- docker run --detach --privileged --name centos7 --env PYTHONUNBUFFERED=1 --env ANSIBLE_CONFIG=/ansibletest/ansible.cfg --volume="${PWD}":/ansibletest:ro --volume=/sys/fs/cgroup:/sys/fs/cgroup:ro centos:7 /usr/lib/systemd/systemd > /tmp/container_id
+- docker exec centos7 touch /etc/sysconfig/init /etc/default/grub
+- docker exec centos7 yum -y install epel-release
+- docker exec centos7 yum -y install git ansible sudo audit openssh-server cronie
+- printf "[defaults]\nroles_path=/ansibletest/roles" > ansible.cfg
+- docker exec centos7 ansible-playbook -v -i /ansibletest/tests/hosts /ansibletest/tests/test.yml --skip-tags=section1.1.1,section1.1.2,section1.1.3,section1.1.4,section1.1.5,section1.1.6,section1.1.7,section1.1.8,section1.1.9,section1.1.10,section1.1.11,section1.1.12,section1.1.13
