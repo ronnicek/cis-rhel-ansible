@@ -6,6 +6,7 @@ before_install:
 - sudo apt-get update -qq
 install:
 - pip install -U pip
+- pip install ansible
 - "printf '[defaults]\nroles_path=../' > ansible.cfg"
 script:
 - ansible-playbook -i hosts playbook.yml --syntax-check
