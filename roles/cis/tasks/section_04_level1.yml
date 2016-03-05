@@ -305,6 +305,7 @@
       name=firewalld
       enabled=yes
       state=started
+    when: ansible_virtualization_type != "docker"
     tags:
       - scored
       - section4.7
