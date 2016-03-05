@@ -9,5 +9,5 @@ install:
 - pip install ansible
 - "printf '[defaults]\nroles_path=../' > ansible.cfg"
 script:
-- ansible-playbook -i hosts playbook.yml --syntax-check
+- ansible-playbook -i test/hosts test/test.yml --syntax-check
 - ansible-playbook -v -i test/hosts test/test.yml
