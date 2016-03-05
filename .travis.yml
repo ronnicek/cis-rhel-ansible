@@ -10,6 +10,7 @@ install:
 - pip install ansible
 - pip install ansible-lint
 - gem install yaml-lint
+- printf "[defaults]\nroles_path=../roles" > ansible.cfg
 script:
 - ansible-playbook -i tests/hosts tests/test.yml --syntax-check
 - find . -name "*.yml" | xargs yaml-lint
