@@ -45,8 +45,8 @@
       - section3.2
 
   - name: 3.3 Disable Avahi Server (disable service) (Scored)
-    shell: systemctl is-enabled avahi-daemon
-    ignore_errors: True
+    shell: systemctl is-enabled avahi-daemon &>/dev/null && echo "enabled" || echo "disabled"
+    changed_when: False
     register: result3_3
     tags:
       - scored
@@ -63,11 +63,19 @@
       - section3.3
 
   - name: 3.4 Disable Print Server - CUPS (Not Scored)
+    shell: systemctl is-enabled cups &>/dev/null && echo "enabled" || echo "disabled"
+    changed_when: False
+    register: result3_4
+    tags:
+      - notscored
+      - section3.4
+
+  - name: 3.4 Disable Print Server - CUPS (Not Scored)
     service: >
       name=cups
       state=stopped
       enabled=no
-    ignore_errors: yes
+    when: "'enabled' in result3_4.stdout"
     tags:
       - notscored
       - section3.4

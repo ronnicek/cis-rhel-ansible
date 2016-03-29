@@ -379,12 +379,16 @@
       - section6.3.1
 
   - name: 6.3.2 Set Password Creation Requirement Parameters Using pam_pwquality (Scored)
-    copy: >
-      src=etc/security/pwquality.conf
+    lineinfile: >
       dest=/etc/security/pwquality.conf
-      owner=root
-      group=root
-      mode=0600
+      regexp="{{item.regexp}}"
+      line="{{item.line}}"
+    with_items:
+      - { regexp: 'minlen', line: 'minlen=14' }
+      - { regexp: 'dcredit', line: 'dcredit=-1' }
+      - { regexp: 'ucredit', line: 'ucredit=-1' }
+      - { regexp: 'ocredit', line: 'ocredit=-1' }
+      - { regexp: 'lcredit', line: 'lcredit=-1' }
     tags:
       - scored
       - section6.3
@@ -419,9 +423,10 @@
       - section6.4
 
   - name: 6.5 Restrict Access to the su Command (Scored)
-    copy: >
-      src=etc/pam.d/su
+    lineinfile: >
       dest=/etc/pam.d/su
+      line="auth required pam_wheel.so use_uid"
+      regexp="auth\s+required\s+pam_wheel\.so\s+use_uid"
     tags:
       - scored
       - section6.5

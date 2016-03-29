@@ -181,9 +181,9 @@
       - section1.2.3
 
   - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
-    shell: systemctl is-enabled rhnsd
+    shell: systemctl is-enabled rhnsd &>/dev/null && echo "enabled" || echo "disabled"
     register: result1_2_4
-    ignore_errors: True
+    changed_when: False
     tags:
       - notscored
       - section1.2
