@@ -25,11 +25,6 @@
       - section1.1
       - section1.1.1
 
-  - name: lolz
-    debug: var=item.mount
-    with_items:
-      - "{{ ansible_mounts }}"
-
   - name: 1.1.2 - 1.1.4 Set nodev,nosuid,noexec option for /tmp Partition (Scored)
     mount:
       path: "/tmp"
