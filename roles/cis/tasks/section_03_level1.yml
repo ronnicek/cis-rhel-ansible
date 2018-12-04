@@ -17,29 +17,29 @@
 #
 
   - name: 3.1 Set Daemon umask (Scored)
-    lineinfile: >
-      dest=/etc/sysconfig/init
-      state=present
-      regexp=^umask
-      line="umask 027"
+    lineinfile:
+      dest: /etc/sysconfig/init
+      state: present
+      regexp: ^umask
+      line: "umask 027"
     tags:
       - scored
       - section3.1
 
   - name: 3.2 Remove X Windows (runlevel 3) (Scored)
-    file: >
-      src=/etc/systemd/system/multi-user.target
-      dest=/etc/systemd/system/default.target
-      state=link
-      force=yes
+    file:
+      src: /etc/systemd/system/multi-user.target
+      dest: /etc/systemd/system/default.target
+      state: link
+      force: yes
     tags:
       - scored
       - section3.2
 
   - name: 3.2 Remove X Windows (remove package group) (Scored)
-    yum: >
-      name=xorg-x11-server-common
-      state=absent
+    yum:
+      name: xorg-x11-server-common
+      state: absent
     tags:
       - scored
       - section3.2
@@ -53,10 +53,10 @@
       - section3.3
 
   - name: 3.3 Disable Avahi Server (disable service) (Scored)
-    service: >
-      name=avahi-daemon
-      state=stopped
-      enabled=no
+    service:
+      name: avahi-daemon
+      state: stopped
+      enabled: no
     when: "'enabled' in result3_3.stdout"
     tags:
       - scored
@@ -71,100 +71,102 @@
       - section3.4
 
   - name: 3.4 Disable Print Server - CUPS (Not Scored)
-    service: >
-      name=cups
-      state=stopped
-      enabled=no
+    service:
+      name: cups
+      state: stopped
+      enabled: no
     when: "'enabled' in result3_4.stdout"
     tags:
       - notscored
       - section3.4
 
   - name: 3.5 Remove DHCP Server (Scored)
-    yum: >
-      name=dhcp
-      state=absent
+    yum:
+      name: dhcp
+      state: absent
     tags:
       - scored
       - section3.5
 
   - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
-    yum: >
-      pkg=ntp
-      state=installed
+    yum:
+      pkg: ntp
+      state: installed
     always_run: yes
     tags:
       - scored
       - section3.6
 
   - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
-    service: >
-      name=ntpd
-      state=started
-      enabled=yes
+    service:
+      name: ntpd
+      state: started
+      enabled: yes
     tags:
       - scored
       - section3.6
 
   - name: 3.6 Configure Network Time Protocol (ipv4) (Scored)
-    lineinfile: >
-      dest=/etc/ntp.conf
-      state=present
-      regexp="^restrict default"
-      line="restrict default kod nomodify notrap nopeer noquery"
-      insertafter=EOF
+    lineinfile:
+      dest: /etc/ntp.conf
+      state: present
+      regexp: "^restrict default"
+      line: "restrict default kod nomodify notrap nopeer noquery"
+      insertafter: EOF
     tags:
       - scored
       - section3.6
 
   - name: 3.6 Configure Network Time Protocol (ipv6) (Scored)
-    lineinfile: >
-      dest=/etc/ntp.conf
-      state=present
-      regexp="^restrict -6 default"
-      line="restrict -6 default kod nomodify notrap nopeer noquery"
-      insertafter=EOF
+    lineinfile:
+      dest: /etc/ntp.conf
+      state: present
+      regexp: "^restrict -6 default"
+      line: "restrict -6 default kod nomodify notrap nopeer noquery"
+      insertafter: EOF
     tags:
       - scored
       - section3.6
 
   - name: 3.7 Remove LDAP (Not Scored)
-    yum: >
-      name=openldap-clients
-      state=absent
+    yum:
+      name: openldap-clients
+      state: absent
     when: ldap_client
     tags:
       - notscored
       - section3.7
 
   - name: 3.7 Remove LDAP (Not Scored)
-    yum: >
-      name=openldap-servers
-      state=absent
+    yum:
+      name: openldap-servers
+      state: absent
     when: ldap_server
     tags:
       - notscored
       - section3.7
 
   - name: 3.8 Disable NFS and RPC (check for nfs-utils) (Not Scored)
-    stat: path=/etc/init.d/nfslock
+    stat: 
+      path: /etc/init.d/nfslock
     register: nfs_utils
     tags:
       - notscored
       - section3.8
 
   - name: 3.8 Disable NFS and RPC (check for rpcbind) (Not Scored)
-    stat: path=/etc/init.d/rpcbind
+    stat: 
+      path: /etc/init.d/rpcbind
     register: rpcbind
     tags:
       - notscored
       - section3.8
 
   - name: 3.8 Disable NFS and RPC (nfs-utils services) (Not Scored)
-    service: >
-      name={{ item }}
-      state=stopped
-      enabled=no
+    service:
+      name: "{{ item }}"
+      state: stopped
+      enabled: no
     with_items:
       - nfslock
       - rpcgssd
@@ -176,10 +178,10 @@
       - section3.8
 
   - name: 3.8 Disable NFS and RPC (rpcbind services) (Not Scored)
-    service: >
-      name=rpcbind
-      state=stopped
-      enabled=no
+    service:
+      name: rpcbind
+      state: stopped
+      enabled: no
     when:
       - rpcbind.stat.exists
       - nfs
@@ -188,84 +190,84 @@
       - section3.8
 
   - name: 3.9 Remove DNS Server (Not Scored)
-    yum: >
-      name=bind
-      state=absent
+    yum:
+      name: bind
+      state: absent
     when: dns
     tags:
       - notscored
       - section3.9
 
   - name: 3.10 Remove FTP Server (Not Scored)
-    yum: >
-      name=vsftpd
-      state=absent
+    yum:
+      name: vsftpd
+      state: absent
     when: ftp
     tags:
       - notscored
       - section3.10
 
   - name: 3.11 Remove HTTP Server (Not Scored)
-    yum: >
-      name=httpd
-      state=absent
+    yum:
+      name: httpd
+      state: absent
     when: httpd
     tags:
       - notscored
       - section3.11
 
   - name: 3.12 Remove Dovecot (IMAP and POP3 services) (Not Scored)
-    yum: >
-      name=dovecot
-      state=absent
+    yum:
+      name: dovecot
+      state: absent
     when: dovecot
     tags:
       - notscored
       - section3.12
 
   - name: 3.13 Remove Samba (Not Scored)
-    yum: >
-      name=samba
-      state=absent
+    yum:
+      name: samba
+      state: absent
     when: samba
     tags:
       - notscored
       - section3.13
 
   - name: 3.14 Remove HTTP Proxy Server (Not Scored)
-    yum: >
-      name=squid
-      state=absent
+    yum:
+      name: squid
+      state: absent
     when: squid
     tags:
       - notscored
       - section3.14
 
   - name: 3.15 Remove SNMP Server (Not Scored)
-    yum: >
-      name=net-snmp
-      state=absent
+    yum:
+      name: net-snmp
+      state: absent
     when: snmp
     tags:
       - notscored
       - section3.15
 
   - name: 3.16 Configure Mail Transfer Agent for Local-Only Mode (Scored)
-    yum: >
-      name=postfix
-      state=present
+    yum:
+      name: postfix
+      state: present
     tags:
       - scored
       - section3.16
 
   - name: 3.16 Configure Mail Transfer Agent for Local-Only Mode (Scored)
-    lineinfile: >
-      backup=yes
-      state=present
-      dest=/etc/postfix/main.cf
-      backrefs=yes
-      regexp="^inet_interfaces"
-      line="inet_interfaces = localhost"
+    lineinfile:
+      backup: yes
+      state: present
+      dest: /etc/postfix/main.cf
+      backrefs: yes
+      regexp: "^inet_interfaces"
+      line: "inet_interfaces = localhost"
     ignore_errors: yes
     tags:
       - scored

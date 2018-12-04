@@ -17,97 +17,98 @@
 #
 
   - name: 2.1.1 Remove telnet-server (Scored)
-    yum: >
-      name=telnet-server
-      state=absent
+    yum:
+      name: telnet-server
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.1
 
   - name: 2.1.2 Remove telnet Clients (Scored)
-    yum: >
-      name=telnet
-      state=absent
+    yum:
+      name: telnet
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.2
 
   - name: 2.1.3 Remove rsh-server (Scored)
-    yum: >
-      name=rsh-server
-      state=absent
+    yum:
+      name: rsh-server
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.3
 
   - name: 2.1.4 Remove rsh (Scored)
-    yum: >
-      name=rsh
-      state=absent
+    yum:
+      name: rsh
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.4
 
   - name: 2.1.5 Remove NIS Client (Scored)
-    yum: >
-      name=ypbind
-      state=absent
+    yum:
+      name: ypbind
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.5
 
   - name: 2.1.6 Remove NIS Server (Scored)
-    yum: >
-      name=ypserv
-      state=absent
+    yum:
+      name: ypserv
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.6
 
   - name: 2.1.7 Remove tftp (Scored)
-    yum: >
-      name=tftp
-      state=absent
+    yum:
+      name: tftp
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.7
 
   - name: 2.1.8 Remove tftp-server (Scored)
-    yum: >
-      name=tftp-server
-      state=absent
+    yum:
+      name: tftp-server
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.8
 
   - name: 2.1.9 Remove talk (Scored)
-    yum: >
-      name=talk
-      state=absent
+    yum:
+      name: talk
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.9
 
   - name: 2.1.10 Remove talk-server (Scored)
-    yum: >
-      name=talk-server
-      state=absent
+    yum:
+      name: talk-server
+      state: absent
     tags:
       - scored
       - section2.1
       - section2.1.10
 
   - name: 2.1.12 Disable chargen-dgram (check if exists)
-    stat: path=/etc/xinetd.d/chargen-dgram
+    stat: 
+      path: /etc/xinetd.d/chargen-dgram
     register: chargen_dgram
     tags:
       - scored
@@ -115,10 +116,10 @@
       - section2.1.12
 
   - name: 2.1.12 Disable chargen-dgram (disable xinetd service)
-    service: >
-        name=chargen-dgram
-        state=stopped
-        enabled=no
+    service:
+        name: chargen-dgram
+        state: stopped
+        enabled: no
     when: chargen_dgram.stat.exists
     tags:
       - scored
@@ -126,7 +127,8 @@
       - section2.1.12
 
   - name: 2.1.13 Disable chargen-stream (check if exists) (Scored)
-    stat: path=/etc/xinetd.d/chargen-stream
+    stat: 
+      path: /etc/xinetd.d/chargen-stream
     register: chargen_stream
     tags:
       - scored
@@ -134,10 +136,10 @@
       - section2.1.13
 
   - name: 2.1.13 Disable chargen-stream (disable xinetd service) (Scored)
-    service: >
-        name=chargen-stream
-        state=stopped
-        enabled=no
+    service:
+        name: chargen-stream
+        state: stopped
+        enabled: no
     when: chargen_stream.stat.exists
     tags:
       - scored
@@ -145,7 +147,8 @@
       - section2.1.13
 
   - name: 2.1.14 Disable daytime-dgram (check if exists) (Scored)
-    stat: path=/etc/xinetd.d/daytime-dgram
+    stat: 
+      path: /etc/xinetd.d/daytime-dgram
     register: daytime_dgram
     tags:
       - scored
@@ -153,10 +156,10 @@
       - section2.1.14
 
   - name: 2.1.14 Disable daytime-dgram (disable xinetd service) (Scored)
-    service: >
-        name=daytime-dgram
-        state=stopped
-        enabled=no
+    service:
+        name: daytime-dgram
+        state: stopped
+        enabled: no
     when: daytime_dgram.stat.exists
     tags:
       - scored
@@ -164,7 +167,8 @@
       - section2.1.14
 
   - name: 2.1.15 Disable daytime-stream (check if exists) (Scored)
-    stat: path=/etc/xinetd.d/daytime-stream
+    stat: 
+      path: /etc/xinetd.d/daytime-stream
     register: daytime_stream
     tags:
       - scored
@@ -172,10 +176,10 @@
       - section2.1.15
 
   - name: 2.1.15 Disable daytime-stream (disable xinetd service) (Scored)
-    service: >
-        name=daytime-stream
-        state=stopped
-        enabled=no
+    service:
+        name: daytime-stream
+        state: stopped
+        enabled: no
     when: daytime_stream.stat.exists
     tags:
       - scored
@@ -183,7 +187,8 @@
       - section2.1.15
 
   - name: 2.1.16 Disable echo-dgram (check if exists) (Scored)
-    stat: path=/etc/xinetd.d/echo-dgram
+    stat: 
+      path: /etc/xinetd.d/echo-dgram
     register: echo_dgram
     tags:
       - scored
@@ -191,10 +196,10 @@
       - section2.1.16
 
   - name: 2.1.16 Disable echo-dgram (disable xinetd service) (Scored)
-    service: >
-        name=echo-dgram
-        state=stopped
-        enabled=no
+    service:
+        name: echo-dgram
+        state: stopped
+        enabled: no
     when: echo_dgram.stat.exists
     tags:
       - scored
@@ -202,7 +207,8 @@
       - section2.1.16
 
   - name: 2.1.17 Disable echo-stream (check if exists) (Scored)
-    stat: path=/etc/xinetd.d/echo-stream
+    stat: 
+      path: /etc/xinetd.d/echo-stream
     register: echo_stream
     tags:
       - scored
@@ -210,10 +216,10 @@
       - section2.1.17
 
   - name: 2.1.17 Disable echo-stream (disable xinetd service) (Scored)
-    service: >
-        name=echo-stream
-        state=stopped
-        enabled=no
+    service:
+        name: echo-stream
+        state: stopped
+        enabled: no
     when: echo_stream.stat.exists
     tags:
       - scored
@@ -221,7 +227,8 @@
       - section2.1.17
 
   - name: 2.1.18 Disable tcpmux-server (check if exists) (Scored)
-    stat: path=/etc/xinetd.d/tcpmux-server
+    stat: 
+      path: /etc/xinetd.d/tcpmux-server
     register: tcpmux_server
     tags:
       - scored
@@ -229,10 +236,10 @@
       - section2.1.18
 
   - name: 2.1.18 Disable tcpmux-server (disable xinetd service) (Scored)
-    service: >
-        name=tcpmux-server
-        state=stopped
-        enabled=no
+    service:
+        name: tcpmux-server
+        state: stopped
+        enabled: no
     when: tcpmux_server.stat.exists
     tags:
       - scored

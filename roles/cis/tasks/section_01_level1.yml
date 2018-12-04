@@ -17,7 +17,8 @@
 #
 
   - name: 1.1.1 Create Separate Partition for /tmp (Scored)
-    debug: msg="*** Manually create Separate Partition for /tmp."
+    debug: 
+      msg: "*** Manually create Separate Partition for /tmp."
     failed_when: "'/tmp' not in mountpoints"
     tags:
       - scored
@@ -25,12 +26,12 @@
       - section1.1.1
 
   - name: 1.1.2 - 1.1.4 Set nodev,nosuid,noexec option for /tmp Partition (Scored)
-    mount: >
-      name="/tmp"
-      src={{ item.device }}
-      state=mounted
-      fstype={{ item.fstype }}
-      opts="nodev,nosuid,noexec"
+    mount:
+      path: /tmp"
+      src: "{{ item.device }}"
+      state: mounted
+      fstype: "{{ item.fstype }}"
+      opts: nodev,nosuid,noexec
     when: item.mount == "/tmp"
     with_items: ansible_mounts
     tags:
@@ -41,7 +42,8 @@
       - section1.1.4
 
   - name: 1.1.5 Create Separate Partition for /var (Scored)
-    debug: msg="*** Manually create Separate Partition for /var."
+    debug: 
+      msg: "*** Manually create Separate Partition for /var."
     failed_when: "'/var' not in mountpoints"
     tags:
       - scored
@@ -49,13 +51,13 @@
       - section1.1.5
 
   - name: 1.1.6 Bind Mount the /var/tmp directory to /tmp (Scored)
-    mount: >
-      name="/var/tmp"
-      src="/tmp"
-      state=mounted
-      fstype="none"
-      opts="bind"
-    when: item.mount == "/tmp"
+    mount:
+      path: /var/tmp/"
+      src: "{{ item.device }}"
+      state: mounted
+      fstype: "{{ item.fstype }}"
+      opts: nodev,nosuid,noexec
+    when: item.mount == "/var/tmp"
     with_items: ansible_mounts
     tags:
       - scored
@@ -63,7 +65,8 @@
       - section1.1.6
 
   - name: 1.1.7 Create Separate Partition for /var/log (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log."
+    debug: 
+      msg: "*** Manually create Separate Partition for /var/log."
     failed_when: "'/var/log' not in mountpoints"
     tags:
       - scored
@@ -71,7 +74,8 @@
       - section1.1.7
 
   - name: 1.1.8 Create Separate Partition for /var/log/audit (Scored)
-    debug: msg="*** Manually create Separate Partition for /var/log/audit."
+    debug: 
+      msg: "*** Manually create Separate Partition for /var/log/audit."
     failed_when: "'/var/log/audit' not in mountpoints"
     tags:
       - scored
@@ -79,7 +83,8 @@
       - section1.1.8
 
   - name: 1.1.9 Create Separate Partition for /home (Scored)
-    debug: msg="*** Manually create Separate Partition for /home."
+    debug: 
+      msg: "*** Manually create Separate Partition for /home."
     failed_when: "'/home' not in mountpoints"
     tags:
       - scored
@@ -87,12 +92,12 @@
       - section1.1.9
 
   - name: 1.1.10 Add nodev Option to /home Partition (Scored)
-    mount: >
-      name="/home"
-      src={{ item.device }}
-      state=mounted
-      fstype={{ item.fstype }}
-      opts="nodev"
+    mount:
+      path: "/home"
+      src: "{{ item.device }}"
+      state: mounted
+      fstype: "{{ item.fstype }}"
+      opts: "nodev"
     when: item.mount == "/home"
     with_items: ansible_mounts
     tags:
@@ -101,33 +106,36 @@
       - section1.1.10
 
   - name: 1.1.11 Add nodev Option to Removable Media Partitions (Not Scored)
-    debug: msg="*** Not relevant."
+    debug: 
+      msg: "*** Not relevant."
     tags:
       - scored
       - section1.1
       - section1.1.11
 
   - name: 1.1.12 Add noexec Option to Removable Media Partitions (Not Scored)
-    debug: msg="*** Not relevant."
+    debug: 
+      msg: "*** Not relevant."
     tags:
       - notscored
       - section1.1
       - section1.1.12
 
   - name: 1.1.13 Add nosuid Option to Removable Media Partitions (Not Scored)
-    debug: msg="*** Not relevant."
+    debug: 
+      msg: "*** Not relevant."
     tags:
       - notscored
       - section1.1
       - section1.1.13
 
   - name: 1.1.14 - 1.1.16 Add noexec Option to /dev/shm Partition (Scored)
-    mount: >
-      name="/dev/shm"
-      src="none"
-      state=mounted
-      fstype="tmpfs"
-      opts="nodev,nosuid,noexec"
+    mount:
+      path: "/dev/shm"
+      src: "none"
+      state: mounted
+      fstype: "tmpfs"
+      opts: "nodev,nosuid,noexec"
     tags:
       - section1.1
       - section1.1.14
@@ -170,11 +178,11 @@
       - section1.2.2
 
   - name: 1.2.3 Verify that gpgcheck is Globally Activated (Scored)
-    lineinfile: >
-      state=present
-      dest=/etc/yum.conf
-      regexp=^gpgcheck=
-      line=gpgcheck=1
+    lineinfile:
+      state: present
+      dest: /etc/yum.conf
+      regexp: ^gpgcheck=
+      line: gpgcheck=1
     tags:
       - scored
       - section1.2
@@ -190,10 +198,10 @@
       - section1.2.4
 
   - name: 1.2.4 Disable the rhnsd Daemon (Not Scored)
-    service: >
-      name=rhnsd
-      state=stopped
-      enabled=no
+    service:
+      name: rhnsd
+      state: stopped
+      enabled: no
     when: "'enabled' in result1_2_4.stdout"
     tags:
       - notscored
@@ -201,14 +209,16 @@
       - section1.2.4
 
   - name: 1.2.5 Obtain software package updates with yum (Not Scored)
-    debug: msg="*** Check manually."
+    debug: 
+      msg: "*** Check manually."
     tags:
       - notscored
       - section1.2
       - section1.2.5
 
   - name: 1.2.6 Verify package integrity using RPM (Not Scored)
-    debug: msg="*** Check via cron/AIDE/manually"
+    debug: 
+      msg: "*** Check via cron/AIDE/manually"
     tags:
       - notscored
       - section1.2
@@ -225,10 +235,10 @@
       - section1.5.1
 
   - name: 1.5.1 Set User/Group Owner on /etc/default/grub (Scored)
-    file: >
-      path={{ readlink.stdout }}
-      owner=root
-      group=root
+    file:
+      path: "{{ readlink.stdout }}"
+      owner: root
+      group: root
     tags:
       - scored
       - section1.5
@@ -245,9 +255,9 @@
       - section1.5.2
 
   - name: 1.5.2 Set Permissions on /etc/default/grub (Scored)
-    file: >
-      path={{ readlink.stdout }}
-      mode=0400
+    file:
+      path: "{{ readlink.stdout }}"
+      mode: 0400
     tags:
       - scored
       - section1.5
@@ -255,46 +265,47 @@
 
   # TODO: Needs to be implemented
   - name: 1.5.3 Set boot loader password (Scored)
-    debug: msg="*** Too destructive for production systems. Evaluate for your environment first."
+    debug: 
+      msg: "*** Too destructive for production systems. Evaluate for your environment first."
     tags:
       - scored
       - section1.5
       - section1.5.3
 
   - name: 1.6.1 Restrict core dumps (Scored) - via pam
-    lineinfile: >
-      dest=/etc/security/limits.conf
-      line="* hard core 0"
-      insertafter=EOF
+    lineinfile:
+      dest: /etc/security/limits.conf
+      line: "* hard core 0"
+      insertafter: EOF
     tags:
       - scored
       - section1.6
       - section1.6.1
 
   - name: 1.6.1 Restrict core dumps (Scored) - via sysctl
-    sysctl: >
-      name=fs.suid_dumpable
-      value=0
-      state=present
-      ignoreerrors=yes
+    sysctl:
+      name: fs.suid_dumpable
+      value: "0"
+      state: present
+      ignoreerrors: yes
     tags:
       - scored
       - section1.6
       - section1.6.1
 
   - name: 1.6.2 Enable Randomized Virtual Memory Region Placement (Scored)
-    sysctl: >
-      name=kernel.randomize_va_space
-      value=2
-      state=present
-      ignoreerrors=yes
+    sysctl:
+      name: kernel.randomize_va_space
+      value: "2"
+      state: present
+      ignoreerrors: yes
     tags:
       - scored
       - section1.6
       - section1.6.2
 
   - name: 1.7 Use the Latest OS Release (Not Scored)
-    command: >
+    command:
       cat /etc/redhat-release
     when: ansible_distribution == "RedHat"
     tags:
