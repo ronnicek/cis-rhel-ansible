@@ -105,6 +105,16 @@
       - section1.1
       - section1.1.24
 
+  - name: 1.1.25 Disable Mounting of vfat Filesystem (Not Scored)
+    lineinfile:
+      state: present
+      dest: "{{modprobe_unused_modules}}"
+      line: "install vfat /bin/true"
+    tags:
+      - notscored
+      - section1.1
+      - section1.1.25
+
   - name: 1.2.4 Check to see if rhnsd daemon is installed (Not Scored)
     stat: 
       path: /etc/init.d/rhnsd
@@ -199,10 +209,13 @@
       - section1.4
       - section1.4.1
 
-  - name: 1.4.2 Set the SELinux State (Scored)
+  - name: 1.4.2 Set the SELinux State + package for Ansible (Scored)
     yum:
-      name: selinux-policy-targeted
+      name: "{{ item }}"
       state: present
+    with_items:
+      - selinux-policy-targeted
+      - libselinux-python
     tags:
       - scored
       - section1.4
