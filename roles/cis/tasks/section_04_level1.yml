@@ -300,12 +300,24 @@
       - section4.6
       - section4.6.4
 
+  - name: 4.7 Checking firewalld
+    package:
+      name: firewalld
+      state: present
+    check_mode: true
+    register: firewalld_check
+    tags:
+     - scored
+     - section4.7
+
   - name: 4.7 Enable firewalld (Scored)
     service:
       name: firewalld
       enabled: yes
       state: started
-    when: ansible_virtualization_type != "docker"
+    when: 
+      - ansible_virtualization_type != "docker"
+      - not firewalld_check.changed
     tags:
       - scored
       - section4.7
