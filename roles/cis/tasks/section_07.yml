@@ -15,12 +15,12 @@
 #   limitations under the License.
 #
 
-  - include: section_07_level1.yml
+  - include_tasks: section_07_level1.yml
     tags:
       - section7
       - level1
 
-  - include: section_07_level2.yml
+  - include_tasks: section_07_level2.yml
     tags:
       - section7
       - level2
