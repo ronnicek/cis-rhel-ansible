@@ -157,7 +157,8 @@
   - name: 6.2.1 Set SSH Protocol to 2 (Scored)
     lineinfile:
       dest: /etc/ssh/sshd_config
-      regexp: "^Protocol " line: "Protocol 2"
+      regexp: '"^Protocol " 
+      line: "Protocol 2"'
     notify: Reload sshd
     tags:
       - scored

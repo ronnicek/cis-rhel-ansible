@@ -25,15 +25,20 @@
       - section1.1
       - section1.1.1
 
+  - name: lolz
+    debug: var=item.mount
+    with_items:
+      - "{{ ansible_mounts }}"
+
   - name: 1.1.2 - 1.1.4 Set nodev,nosuid,noexec option for /tmp Partition (Scored)
     mount:
-      path: /tmp"
+      path: "/tmp"
       src: "{{ item.device }}"
       state: mounted
       fstype: "{{ item.fstype }}"
       opts: nodev,nosuid,noexec
     when: item.mount == "/tmp"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
@@ -52,13 +57,13 @@
 
   - name: 1.1.6 Bind Mount the /var/tmp directory to /tmp (Scored)
     mount:
-      path: /var/tmp/"
+      path: "/var/tmp/"
       src: "{{ item.device }}"
       state: mounted
       fstype: "{{ item.fstype }}"
       opts: nodev,nosuid,noexec
     when: item.mount == "/var/tmp"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1
@@ -99,7 +104,7 @@
       fstype: "{{ item.fstype }}"
       opts: "nodev"
     when: item.mount == "/home"
-    with_items: ansible_mounts
+    with_items: "{{ ansible_mounts }}"
     tags:
       - scored
       - section1.1

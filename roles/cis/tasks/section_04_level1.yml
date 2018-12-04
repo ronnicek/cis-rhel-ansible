@@ -17,7 +17,7 @@
 #
 
   - name: 4.1.1 Disable IP Forwarding (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.ip_forward
       value: "0"
       state: present
@@ -27,7 +27,7 @@
       - section4.1.1
 
   - name: 4.1.2 Disable Send Packet Redirects (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.all.send_redirects
       value: "0"
       state: present
@@ -38,7 +38,7 @@
       - section4.1.2
 
   - name: 4.1.2 Disable Send Packet Redirects (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.default.send_redirects
       value: "0"
       state: present
@@ -49,7 +49,7 @@
       - section4.1.2
 
   - name: 4.2.1 Disable Source Routed Packet Acceptance (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.all.accept_source_route
       value: "0"
       state: present
@@ -60,7 +60,7 @@
       - section4.2.1
 
   - name: 4.2.1 Disable Source Routed Packet Acceptance (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.default.accept_source_route
       value: "0"
       state: present
@@ -71,7 +71,7 @@
       - section4.2.1
 
   - name: 4.2.2 Disable ICMP Redirect Acceptance (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.all.accept_redirects
       value: "0"
       state: present
@@ -82,7 +82,7 @@
       - section4.2.2
 
   - name: 4.2.2 Disable ICMP Redirect Acceptance (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.default.accept_redirects
       value: "0"
       state: present
@@ -93,7 +93,7 @@
       - section4.2.2
 
   - name: 4.2.4 Log Suspicious Packets (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.all.log_martians
       value: "1"
       state: present
@@ -104,7 +104,7 @@
       - section4.2.4
 
   - name: 4.2.4 Log Suspicious Packets (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.conf.default.log_martians
       value: "1"
       state: present
@@ -115,7 +115,7 @@
       - section4.2.4
 
   - name: 4.2.5 Enable Ignore Broadcast Requests (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.icmp_echo_ignore_broadcasts
       value: "1"
       state: present
@@ -126,7 +126,7 @@
       - section4.2.5
 
   - name: 4.2.6 Enable Bad Error Message Protection (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.icmp_ignore_bogus_error_responses
       value: "1"
       state: present
@@ -137,7 +137,7 @@
       - section4.2.6
 
   - name: 4.2.8 Enable TCP SYN Cookies (Scored)
-    sysctl::
+    sysctl:
       name: net.ipv4.tcp_syncookies
       value: "1"
       state: present
@@ -148,7 +148,7 @@
       - section4.2.8
 
   - name: 4.4.1.1 Disable IPv6 Router Advertisements (Not Scored)
-    sysctl::
+    sysctl:
       name: net.ipv6.conf.all.accept_ra
       value: "0"
       state: present
@@ -160,7 +160,7 @@
       - section4.4.1.1
 
   - name: 4.4.1.1 Disable IPv6 Router Advertisements (Not Scored)
-    sysctl::
+    sysctl:
       name: net.ipv6.conf.default.accept_ra
       value: "0"
       state: present
@@ -172,7 +172,7 @@
       - section4.4.1.1
 
   - name: 4.4.1.2 Disable IPv6 Redirect Acceptance (Not Scored)
-    sysctl::
+    sysctl:
       name: net.ipv6.conf.all.accept_redirects
       value: "0"
       state: present
@@ -184,7 +184,7 @@
       - section4.4.1.2
 
   - name: 4.4.1.2 Disable IPv6 Redirect Acceptance (Not Scored)
-    sysctl::
+    sysctl:
       name: net.ipv6.conf.default.accept_redirects
       value: "0"
       state: present
@@ -196,7 +196,7 @@
       - section4.4.1.2
 
   - name: 4.4.2 Disable IPv6 (Not Scored)
-    sysctl::
+    sysctl:
       name: net.ipv6.conf.all.disable_ipv6
       value: "1"
       state: present
