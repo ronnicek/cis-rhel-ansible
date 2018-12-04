@@ -228,7 +228,7 @@
     command: readlink -f /etc/default/grub
     register: readlink
     changed_when: false
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section1.5
@@ -248,7 +248,7 @@
     command: readlink -f /etc/default/grub
     register: readlink
     changed_when: false
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section1.5

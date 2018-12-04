@@ -138,7 +138,7 @@
     shell: /bin/cat /etc/shadow | /bin/awk -F':' '($2 == "" ) { print $1 " does not have a password "}'
     register: result9_2_1
     changed_when: "result9_2_1.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section9.2
@@ -149,7 +149,7 @@
     register: result9_2_2
     failed_when: result9_2_2.rc == 0
     changed_when: result9_2_2.rc == 0
-    always_run: yes
+    check_mode: no
     ignore_errors: yes
     tags:
       - scored
@@ -161,7 +161,7 @@
     register: result9_2_3
     failed_when: result9_2_3.rc == 0
     changed_when: result9_2_3.rc == 0
-    always_run: yes
+    check_mode: no
     ignore_errors: yes
     tags:
       - scored
@@ -173,7 +173,7 @@
     register: result9_2_4
     failed_when: result9_2_4.rc == 0
     changed_when: result9_2_4.rc == 0
-    always_run: yes
+    check_mode: no
     ignore_errors: yes
     tags:
       - scored
@@ -185,7 +185,7 @@
     register: result9_2_5
     failed_when: result9_2_5.rc != 0
     changed_when: result9_2_5.rc != 0
-    always_run: yes
+    check_mode: no
     ignore_errors: yes
     tags:
       - scored
@@ -369,7 +369,7 @@
     register: result9_2_12
     failed_when: "result9_2_12.stdout"
     changed_when: "result9_2_12.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section9.2
@@ -388,7 +388,7 @@
     register: result9_2_13
     failed_when: "result9_2_13.stdout"
     changed_when: "result9_2_13.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section9.2
@@ -398,7 +398,7 @@
     shell: for dupeID in  $(cut -f3 -d":" /etc/passwd | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'); do awk -F':' -v dupeid=$dupeID '$3 == dupeid {print $1}' /etc/passwd   ; done
     register: result9_2_15
     changed_when: "result9_2_15.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section9.2
@@ -408,7 +408,7 @@
     shell: for dupeID in  $(cut -f3 -d":" /etc/group | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'); do awk -F':' -v dupeid=$dupeID '$3 == dupeid {print $1}' /etc/group   ; done
     register: result9_2_15
     changed_when: "result9_2_15.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - check-only
@@ -436,7 +436,7 @@
     register: result9_2_16
     failed_when: "result9_2_16.stdout"
     changed_when: "result9_2_16.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section9.2
@@ -446,7 +446,7 @@
     shell: cut -f1 -d':' /etc/passwd | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'
     register: result9_2_17
     changed_when: "result9_2_17.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - check-only
@@ -457,7 +457,7 @@
     shell: cut -f1 -d':' /etc/group | sort | uniq -c | sort -n | awk ' $1 > 1 {print $2}'
     register: result9_2_18
     changed_when: "result9_2_18.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - check-only
@@ -468,7 +468,7 @@
     shell:  for h in $(/bin/awk -F':' '$7 !~ /\/sbin\/nologin/ && $7 !~ /\/bin\/false/ { print $6 }' /etc/passwd); do if [[ -f $h/.netrc && -s $h/.netrc ]]; then echo $h; fi ; done
     register: result9_2_19
     changed_when: "result9_2_19.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - check-only
@@ -479,7 +479,7 @@
     shell:  for h in $(/bin/awk -F':' '$7 !~ /\/sbin\/nologin/ && $7 !~ /\/bin\/false/ { print $6 }' /etc/passwd); do if [[ -f $h/.forward && -s $h/.forward ]]; then echo $h; fi ; done
     register: result9_2_20
     changed_when: "result9_2_20.stdout"
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - check-only

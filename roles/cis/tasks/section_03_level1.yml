@@ -92,7 +92,7 @@
     yum:
       pkg: ntp
       state: installed
-    always_run: yes
+    check_mode: no
     tags:
       - scored
       - section3.6
