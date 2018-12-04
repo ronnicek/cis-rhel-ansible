@@ -197,7 +197,7 @@
       if [ "`echo $PATH | /bin/grep :: `" != "" ]; then
         echo "Empty Directory in PATH (::)"
       fi
-      if [ "`echo $PATH | bin/grep :$`" != "" ]; then
+      if [ "`echo $PATH | /bin/grep :$`" != "" ]; then
         echo "Trailing : in PATH"
       fi
       p=`echo $PATH | /bin/sed -e 's/::/:/' -e 's/:$//' -e 's/:/ /g'`
