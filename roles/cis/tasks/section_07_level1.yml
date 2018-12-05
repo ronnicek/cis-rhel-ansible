@@ -54,6 +54,17 @@
       - section7.1
       - section7.1.3
 
+  - name: 7.1.4 Ensure password expiration warning days is 7 or more (Scored)
+    lineinfile:
+      dest: /etc/default/useradd
+      state: present
+      regexp: ^INACTIVE
+      line: INACTIVE=30
+    tags:
+      - scored
+      - section7.1
+      - section7.1.4
+
   - name: 7.2 Disable System Accounts (Scored) - preparation
     shell: awk -F':' '($3<500 && $1!="root" && $1!="sync" && $1!="shutdown" && $1!="sync" && $1!="shutdown" && $1!="halt" && $7!="/sbin/nologin") { print $1 }' /etc/passwd
     register: enabled_system_accounts
@@ -82,7 +93,7 @@
       state: present
       create: yes
       dest: /etc/profile.d/cis.sh
-      line: "umask 077"
+      line: "umask 027"
     ignore_errors: true
     tags:
       - scored
