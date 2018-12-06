@@ -216,13 +216,12 @@
       group: "root"
       mode: 0700  
 
-  - name: 1.4.2 Set the SELinux State + package for Ansible (Scored)
+  - name: 1.4.2 Set the SELinux State (Scored)
     package:
       name: "{{ item }}"
       state: present
     with_items:
       - selinux-policy-targeted
-      - libselinux-python
     tags:
       - scored
       - section1.4

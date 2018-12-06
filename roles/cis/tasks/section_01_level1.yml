@@ -16,6 +16,14 @@
 #   limitations under the License.
 #
 
+  - name: 0.0.1 Make sure libselinux-python is intalled
+    package:
+      name: libselinux-python
+      state: present
+    tags:
+      - scored
+      - common
+
   - name: 1.1.1 Create Separate Partition for /tmp (Scored)
     debug: 
       msg: "*** Manually create Separate Partition for /tmp."
