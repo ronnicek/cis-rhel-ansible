@@ -99,6 +99,17 @@
       - scored
       - section7.4
 
+  - name: 7.4.1 Set Default umask for Bash Users (Scored)
+    lineinfile:
+      state: present
+      create: yes
+      dest: /etc/bashrc
+      line: "umask 027"
+    ignore_errors: true
+    tags:
+      - scored
+      - section7.4
+
   - name: Ensure that /etc/profile.d/cis.sh has correct owner, group and mode
     file:
       path: /etc/profile.d/cis.sh
