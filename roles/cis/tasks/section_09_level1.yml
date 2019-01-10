@@ -143,13 +143,12 @@
       - section9.1
       - section9.1.14
 
-  - name: 9.1.5 Permissions on /etc/passwd-, /etc/shadow-, /etc/group- (Scored)
+  - name: 9.1.5 Permissions on /etc/passwd-, /etc/group- (Scored)
     file:
       dest: "{{ item }}"
       mode: 0600
     with_items:
       - /etc/passwd-
-      - /etc/shadow-
       - /etc/group-
     tags:
       - scored
