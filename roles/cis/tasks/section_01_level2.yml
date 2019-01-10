@@ -209,12 +209,15 @@
       - section1.4
       - section1.4.1
 
-  - name: 1.4.1 Set rights on /boot/grub2/grub.cfg
+  - name: 1.4.1 Set rights on /boot/grub2/grub.cfg + /boot/grub2/user.cfg
     file:
       path: /boot/grub2/grub.cfg
       owner: "root"
       group: "root"
-      mode: 0700  
+      mode: 0700
+    with_items:
+      - /boot/grub2/grub.cfg
+      - /boot/grub2/user.cfg
 
   - name: 1.4.2 Set the SELinux State (Scored)
     package:
