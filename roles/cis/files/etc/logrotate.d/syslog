@@ -1,6 +1,8 @@
-/var/log/messages /var/log/secure /var/log/maillog /var/log/spooler /var/log/boot.log /var/log/cron {
+/var/log/messages /var/log/secure /var/log/maillog /var/log/spooler /var/log/boot.log /var/log/cron /var/log/rhsm/rhsm.log /var/log/tuned/tuned.log {
     missingok
     sharedscripts
+    create 640 root adm
+    compress
     postrotate
         /bin/kill -HUP `cat /var/run/syslogd.pid 2> /dev/null` 2> /dev/null || true
     endscript
